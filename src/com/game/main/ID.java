@@ -5,5 +5,6 @@ package com.game.main;
  */
 public enum ID {
     Bubble(),
-    Cannon()
+    Cannon(),
+    CannonBall()
 }

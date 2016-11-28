@@ -21,11 +21,11 @@ public class Bubble extends GameObject {
 
     }
 
-    public void render(Graphics g) {
-        g.setColor(Color.black);
-        g.fillOval(x - 1, y - 1, diameter + 2, diameter + 2);
+    public void render(Graphics bubble) {
+        bubble.setColor(Color.black);
+        bubble.fillOval(x - 1, y - 1, diameter + 2, diameter + 2);
 
-        g.setColor(color);
-        g.fillOval(x, y, diameter, diameter);
+        bubble.setColor(color);
+        bubble.fillOval(x, y, diameter, diameter);
     }
 }

@@ -30,6 +30,19 @@ public class KeyInput extends KeyAdapter{
                     temp.setVelX(-5);
                 }
             }
+
+            if(key == KeyEvent.VK_SPACE){
+                if(temp.getId() == ID.CannonBall) {
+                    temp.setVelX(5);
+                    temp.setVelY(-5);
+                }
+                if(key == KeyEvent.VK_RIGHT){
+                    temp.setVelX(0);
+                }
+                else if(key == KeyEvent.VK_LEFT){
+                    temp.setVelX(0);
+                }
+            }
         }
     }
 
@@ -40,7 +53,7 @@ public class KeyInput extends KeyAdapter{
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
 
-            if(temp.getId() == ID.Cannon){
+            if(temp.getId() == ID.Cannon || temp.getId() == ID.CannonBall){
                 //key events for the cannon object
                 if(key == KeyEvent.VK_RIGHT){
                     temp.setVelX(0);

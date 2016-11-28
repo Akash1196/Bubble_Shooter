@@ -23,6 +23,7 @@ public class Game extends Canvas implements Runnable{
 
         handler.buildHexGrid(10, 20, 3);
         handler.buildCannon();
+        handler.loadCannonBall();
     }
 
     /**
@@ -101,6 +102,18 @@ public class Game extends Canvas implements Runnable{
 
         g.dispose();
         bs.show();
+    }
+
+    public static int clamp(int val, int min, int max) {
+        if(val >= max){
+            return val = max;
+        }
+        else if(val <= min){
+            return val = min;
+        }
+        else{
+            return val;
+        }
     }
 
     public static void main(String args[]){
