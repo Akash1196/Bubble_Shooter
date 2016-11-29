@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b22b0ff1-e0da-42df-b8e3-9278ca99dc07" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/game/main/MouseInput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Bubble.class" afterPath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Bubble.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Cannon.class" afterPath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Cannon.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Game.class" afterPath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Game.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/GameObject.class" afterPath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/GameObject.class" />
+    <list default="true" id="b22b0ff1-e0da-42df-b8e3-9278ca99dc07" name="Default" comment="Got the canon rotating perfectly. CannonBall still needs to be adjusted to shoot in the direction that the cannon points.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Handler.class" afterPath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/Handler.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/KeyInput.class" afterPath="$PROJECT_DIR$/out/production/Bubble_Shooter/com/game/main/KeyInput.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/Bubble.java" afterPath="$PROJECT_DIR$/src/com/game/main/Bubble.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/Cannon.java" afterPath="$PROJECT_DIR$/src/com/game/main/Cannon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/CannonBall.java" afterPath="$PROJECT_DIR$/src/com/game/main/CannonBall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/Game.java" afterPath="$PROJECT_DIR$/src/com/game/main/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/GameObject.java" afterPath="$PROJECT_DIR$/src/com/game/main/GameObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/Handler.java" afterPath="$PROJECT_DIR$/src/com/game/main/Handler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/game/main/KeyInput.java" afterPath="$PROJECT_DIR$/src/com/game/main/KeyInput.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -41,7 +31,7 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
+            <state relative-caret-position="1386">
               <caret line="108" column="5" lean-forward="false" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
               <folding>
                 <element signature="method#run#0;class#Game#0" expanded="false" />
@@ -53,8 +43,8 @@
       <file leaf-file-name="KeyInput.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/KeyInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="34" column="65" lean-forward="false" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+            <state relative-caret-position="126">
+              <caret line="32" column="48" lean-forward="false" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -65,7 +55,7 @@
       <file leaf-file-name="MouseInput.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/MouseInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
+            <state relative-caret-position="378">
               <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -77,7 +67,7 @@
       <file leaf-file-name="GameObject.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/GameObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
+            <state relative-caret-position="864">
               <caret line="72" column="5" lean-forward="false" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
               <folding>
                 <element signature="e#1225#1226#0" expanded="true" />
@@ -92,8 +82,8 @@
       <file leaf-file-name="Handler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-383">
-              <caret line="43" column="7" lean-forward="true" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+            <state relative-caret-position="738">
+              <caret line="43" column="7" lean-forward="false" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getRandomColor#0;class#Handler#0" expanded="false" />
@@ -105,7 +95,7 @@
       <file leaf-file-name="Cannon.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/Cannon.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
+            <state relative-caret-position="252">
               <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -127,7 +117,7 @@
       <file leaf-file-name="CannonBall.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/game/main/CannonBall.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
+            <state relative-caret-position="234">
               <caret line="13" column="50" lean-forward="false" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
               <folding />
             </state>
@@ -148,6 +138,7 @@
     <findStrings>
       <find>addObject</find>
       <find>key</find>
+      <find>system</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -193,9 +184,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -228,6 +218,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -489,7 +480,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480366033299</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Got the canon rotating perfectly. CannonBall still needs to be adjusted to shoot in the direction that the cannon points.">
+      <created>1480400279436</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1480400279436</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -499,13 +497,12 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -522,6 +519,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -531,7 +529,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added some key input. Made the wall bounce off of walls;" />
-    <option name="LAST_COMMIT_MESSAGE" value="added some key input. Made the wall bounce off of walls;" />
+    <MESSAGE value="Got the canon rotating perfectly. CannonBall still needs to be adjusted to shoot in the direction that the cannon points." />
+    <option name="LAST_COMMIT_MESSAGE" value="Got the canon rotating perfectly. CannonBall still needs to be adjusted to shoot in the direction that the cannon points." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -618,7 +617,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -696,7 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,7 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -951,23 +947,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/main/MouseInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/main/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
+        <state relative-caret-position="1386">
           <caret line="108" column="5" lean-forward="false" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
           <folding>
             <element signature="method#run#0;class#Game#0" expanded="false" />
@@ -977,7 +962,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/main/GameObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
+        <state relative-caret-position="864">
           <caret line="72" column="5" lean-forward="false" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
           <folding>
             <element signature="e#1225#1226#0" expanded="true" />
@@ -990,7 +975,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/main/Cannon.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
+        <state relative-caret-position="252">
           <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1008,7 +993,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/main/CannonBall.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
+        <state relative-caret-position="234">
           <caret line="13" column="50" lean-forward="false" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
           <folding />
         </state>
@@ -1016,8 +1001,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/main/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-383">
-          <caret line="43" column="7" lean-forward="true" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+        <state relative-caret-position="738">
+          <caret line="43" column="7" lean-forward="false" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getRandomColor#0;class#Handler#0" expanded="false" />
@@ -1025,10 +1010,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/main/MouseInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/main/KeyInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="34" column="65" lean-forward="false" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+        <state relative-caret-position="126">
+          <caret line="32" column="48" lean-forward="false" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
