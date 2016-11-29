@@ -17,13 +17,15 @@ public class Game extends Canvas implements Runnable{
      */
     public Game(){
         handler = new Handler();
-        this.addKeyListener(new KeyInput(handler));
 
         new Window(WIDTH, HEIGHT, "Bubble Shooter", this);
 
         handler.buildHexGrid(10, 20, 3);
         handler.buildCannon();
         handler.loadCannonBall();
+        this.addKeyListener(new KeyInput(handler));
+        //this.addMouseListener(new MouseInput(handler));
+        //this.addMouseMotionListener(new MouseInput(handler));
     }
 
     /**
@@ -104,7 +106,7 @@ public class Game extends Canvas implements Runnable{
         bs.show();
     }
 
-    public static int clamp(int val, int min, int max) {
+    public static double clamp(double val, double min, double max) {
         if(val >= max){
             return val = max;
         }

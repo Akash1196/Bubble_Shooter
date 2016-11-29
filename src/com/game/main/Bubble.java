@@ -17,10 +17,12 @@ public class Bubble extends GameObject {
         this.diameter = diameter;
     }
 
+    @Override
     public void tick() {
 
     }
 
+    @Override
     public void render(Graphics bubble) {
         bubble.setColor(Color.black);
         bubble.fillOval(x - 1, y - 1, diameter + 2, diameter + 2);

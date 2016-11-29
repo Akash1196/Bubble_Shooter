@@ -43,8 +43,7 @@ public class Handler {
      * Add the cannon
      */
     public void buildCannon(){
-        //GameObject cannon = new Cannon(250, 650, ID.Cannon);
-        GameObject cannon = new Cannon(Game.WIDTH/2 - 20, Game.HEIGHT - 100, ID.Cannon);
+        GameObject cannon = new Cannon(Game.WIDTH/2 - 20, Game.HEIGHT - 100, 0, ID.Cannon);
         object.add(cannon);
     }
 
@@ -52,7 +51,7 @@ public class Handler {
      * Add the cannon ball
      */
     public void loadCannonBall(){
-        CannonBall cannonBall = new CannonBall(Game.WIDTH/2 - 13, Game.HEIGHT - 100 - diameter,
+        CannonBall cannonBall = new CannonBall(Game.WIDTH/2 - 13, Game.HEIGHT - 55,
                 diameter, ID.CannonBall, getRandomColor());
         object.add(cannonBall);
     }

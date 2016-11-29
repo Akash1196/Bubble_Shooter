@@ -22,10 +22,10 @@ public class CannonBall extends GameObject{
         x += velX;
         y += velY;
 
-        if(x >= Game.WIDTH || x <= 0){
+        if(x >= Game.WIDTH - diameter || x <= 0){
             velX *= -1;
         }
-        if(y >= Game.HEIGHT || y <= 0){
+        if(y >= Game.HEIGHT - (diameter * 2) || y <= 0){
             velY *= -1;
         }
     }

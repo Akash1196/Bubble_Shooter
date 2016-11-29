@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter{
 
     private Handler handler;
+    private double tempTheta = Math.PI/2;
 
     public KeyInput(Handler handler) {
         this.handler = handler;
@@ -24,23 +25,14 @@ public class KeyInput extends KeyAdapter{
             if(temp.getId() == ID.Cannon){
                 //key events for the cannon object
                 if(key == KeyEvent.VK_RIGHT){
-                    temp.setVelX(5);
+                    temp.setVelTheta(Math.toRadians(2));
+                    tempTheta += Math.toRadians(2);
+                    tempTheta = Game.clamp(tempTheta, -1.5, 1.5);
                 }
                 else if(key == KeyEvent.VK_LEFT){
-                    temp.setVelX(-5);
-                }
-            }
-
-            if(key == KeyEvent.VK_SPACE){
-                if(temp.getId() == ID.CannonBall) {
-                    temp.setVelX(5);
-                    temp.setVelY(-5);
-                }
-                if(key == KeyEvent.VK_RIGHT){
-                    temp.setVelX(0);
-                }
-                else if(key == KeyEvent.VK_LEFT){
-                    temp.setVelX(0);
+                    temp.setVelTheta(Math.toRadians(-2));
+                    tempTheta += Math.toRadians(-2);
+                    tempTheta = Game.clamp(tempTheta, -1.5, 1.5);
                 }
             }
         }
@@ -53,13 +45,30 @@ public class KeyInput extends KeyAdapter{
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
 
-            if(temp.getId() == ID.Cannon || temp.getId() == ID.CannonBall){
+            if(temp.getId() == ID.Cannon){
                 //key events for the cannon object
                 if(key == KeyEvent.VK_RIGHT){
-                    temp.setVelX(0);
+                    temp.setVelTheta(0);
                 }
                 else if(key == KeyEvent.VK_LEFT){
-                    temp.setVelX(0);
+                    temp.setVelTheta(0);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char keyChar = e.getKeyChar();
+
+        for(int i = 0; i < handler.object.size(); i++){
+            GameObject temp = handler.object.get(i);
+
+            if(temp.getId() == ID.CannonBall) {
+                if(keyChar == ' ') {
+                    System.out.println(Math.toDegrees(tempTheta));
+                    temp.setVelX((int)(5 * Math.cos(tempTheta))); // x-component = vel * cos(angle)
+                    temp.setVelY((int)(5 * Math.sin(tempTheta))); // y-component = vel * sin(angle)
                 }
             }
         }
