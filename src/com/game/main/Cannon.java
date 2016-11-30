@@ -20,6 +20,14 @@ public class Cannon extends GameObject {
     public void tick() {
         theta += velTheta;
         theta = Game.clamp(theta, -1.4, 1.4); // can't shoot bubble downward or completely horizontal!
+        //shoot from center of cannon depending on direction of cannon
+        if(theta > 0){
+            super.setTheta(theta - 0.15);
+        }else if(theta < 0){
+            super.setTheta(theta + 0.15);
+        }else{
+            super.setTheta(theta);
+        }
     }
 
     @Override

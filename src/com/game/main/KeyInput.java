@@ -11,7 +11,8 @@ public class KeyInput extends KeyAdapter{
 
     private Handler handler;
     private LinkedList<GameObject> tempObjectList; // temp list...remove cannon ball when spacebar released
-    private double tempTheta = Math.PI/2;
+    private double tempTheta;
+    private boolean cannonBallFired = false; // ensures pressing space only fires cannonball once and not repeatedly
 
     public KeyInput(Handler handler) {
         this.handler = handler;
@@ -29,21 +30,29 @@ public class KeyInput extends KeyAdapter{
                 //key events for the cannon object
                 if(key == KeyEvent.VK_RIGHT){
                     temp.setVelTheta(Math.toRadians(2));
-                    tempTheta += Math.toRadians(2);
-                    tempTheta = Game.clamp(tempTheta, -1.5, 1.5);
+                    //tempTheta += Math.toRadians(2);
+                    //tempTheta = Game.clamp(tempTheta, -1.5, 1.5);
                 }
                 else if(key == KeyEvent.VK_LEFT){
                     temp.setVelTheta(Math.toRadians(-2));
-                    tempTheta += Math.toRadians(-2);
-                    tempTheta = Game.clamp(tempTheta, -1.5, 1.5);
+                    //tempTheta += Math.toRadians(-2);
+                    //tempTheta = Game.clamp(tempTheta, -1.5, 1.5);
                 }
             }
 
             if(temp.getId() == ID.CannonBall) {
+                for(int j = 0; j < tempObjectList.size(); j++){
+                    GameObject temp2 = tempObjectList.get(j);
+                    if(temp2.getId() == ID.Cannon){
+                        tempTheta = temp2.getTheta();
+                    }
+                }
                 if(key == KeyEvent.VK_SPACE) {
-                    System.out.println(tempTheta);
-                    temp.setVelX((int)(5 * Math.cos(tempTheta))); // x-component = vel * cos(angle)
-                    temp.setVelY((int)(5 * Math.sin(tempTheta))); // y-component = vel * sin(angle)
+                    if(!cannonBallFired) {
+                        temp.setVelY((int) (6 * Math.cos(tempTheta))); // y-component = vel * cos(angle)
+                        temp.setVelX((int) (6 * Math.sin(tempTheta))); // x-component = vel * sin(angle)
+                        cannonBallFired = !cannonBallFired;
+                    }
                 }
             }
         }
@@ -69,6 +78,7 @@ public class KeyInput extends KeyAdapter{
             if(temp.getId() == ID.CannonBall) {
                 if(key == KeyEvent.VK_SPACE) {
                     tempObjectList.remove(temp);
+                    cannonBallFired = !cannonBallFired;
                 }
             }
         }

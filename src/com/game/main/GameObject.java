@@ -11,6 +11,7 @@ public abstract class GameObject {
     protected ID id; // id of object
     protected int velX, velY; // x and y velocity of object
     protected double velTheta; // angle velocity of cannon rotation
+    protected double theta; // angle of rotation
 
     public GameObject(int x, int y, ID id){
         this.x = x;
@@ -70,5 +71,13 @@ public abstract class GameObject {
 
     public void setVelTheta(double velTheta) {
         this.velTheta = velTheta;
+    }
+
+    public double getTheta() {
+        return theta;
+    }
+
+    public void setTheta(double theta) {
+        this.theta = theta;
     }
 }
