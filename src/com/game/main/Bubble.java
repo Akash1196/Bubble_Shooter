@@ -8,13 +8,12 @@ import java.awt.*;
  */
 public class Bubble extends GameObject {
 
-    private int diameter; // diameter of bubble object
     private Color color; // color of bubble object
 
     public Bubble(int x, int y, int diameter, ID id, Color color) {
         super(x, y, id);
         this.color = color;
-        this.diameter = diameter;
+        super.diameter = diameter;
     }
 
     @Override
@@ -29,5 +28,14 @@ public class Bubble extends GameObject {
 
         bubble.setColor(color);
         bubble.fillOval(x, y, diameter, diameter);
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, diameter, diameter);
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

@@ -43,4 +43,9 @@ public class Cannon extends GameObject {
         g2d.fillRect(x, y, 40, 80);
         g2d.setTransform(old);
     }
+
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, 40, 80);
+    }
 }

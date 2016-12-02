@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class Handler {
 
-    private LinkedList<LinkedList<Bubble>> grid; // List containing rows of bubbles
-    private LinkedList<Bubble> row; // List containing bubbles
+    public LinkedList<LinkedList<Bubble>> grid; // List containing rows of bubbles
+    public LinkedList<Bubble> row; // List containing bubbles
     public LinkedList<GameObject> object; // List containing any and all objects that need to be rendered
     private Random generator; // Random number generator variable
     private int rand; // Number that holds random number attained from generator
@@ -52,7 +52,7 @@ public class Handler {
      */
     public void loadCannonBall(){
         CannonBall cannonBall = new CannonBall(Game.WIDTH/2 - 13, Game.HEIGHT - 55,
-                diameter, ID.CannonBall, getRandomColor());
+                diameter, ID.CannonBall, getRandomColor(), this);
         object.add(cannonBall);
     }
 
@@ -66,7 +66,7 @@ public class Handler {
         this.numCols = numCols;
         this.numBubbleColors = numBubbleColors;
         this.diameter = Game.WIDTH/numCols;
-        int x, y = 0;
+        int x, y = 2* diameter;
         Boolean oddRow;
 
         for(int i = 0; i < numRows; i++){

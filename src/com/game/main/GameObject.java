@@ -12,6 +12,7 @@ public abstract class GameObject {
     protected int velX, velY; // x and y velocity of object
     protected double velTheta; // angle velocity of cannon rotation
     protected double theta; // angle of rotation
+    protected int diameter; // diameter of Bubble() and CannonBall()
 
     public GameObject(int x, int y, ID id){
         this.x = x;
@@ -21,6 +22,7 @@ public abstract class GameObject {
 
     public abstract void tick();
     public abstract void render(Graphics g);
+    public abstract Rectangle getBounds();
 
     /**
      * Setters and Getters
@@ -79,5 +81,13 @@ public abstract class GameObject {
 
     public void setTheta(double theta) {
         this.theta = theta;
+    }
+
+    public int getDiameter() {
+        return diameter;
+    }
+
+    public void setDiameter(int diameter) {
+        this.diameter = diameter;
     }
 }
