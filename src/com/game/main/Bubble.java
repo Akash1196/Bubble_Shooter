@@ -17,7 +17,7 @@ public class Bubble extends GameObject {
     }
 
     @Override
-    public void tick() {
+    public void tick(){
 
     }
 
@@ -32,7 +32,7 @@ public class Bubble extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, diameter, diameter);
+        return new Rectangle(this.x, this.y, diameter, diameter);
     }
 
     public Color getColor() {

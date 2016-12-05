@@ -1,5 +1,6 @@
 package com.game.main;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -19,13 +20,11 @@ public class Game extends Canvas implements Runnable{
         handler = new Handler();
 
         new Window(WIDTH, HEIGHT, "Bubble Shooter", this);
+        handler.buildBoard(10, 20, 3);
 
-        handler.buildHexGrid(10, 20, 3);
-        handler.buildCannon();
-        handler.loadCannonBall();
-        this.addKeyListener(new KeyInput(handler));
-        //this.addMouseListener(new MouseInput(handler));
-        //this.addMouseMotionListener(new MouseInput(handler));
+        //this.addKeyListener(new KeyInput(handler));
+        this.addMouseListener(new MouseInput(handler));
+        this.addMouseMotionListener(new MouseInput(handler));
     }
 
     /**
@@ -102,7 +101,7 @@ public class Game extends Canvas implements Runnable{
 
         handler.render(g);
 
-        g.dispose();
+        g.dispose(); // get rid of the copy
         bs.show();
     }
 

@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 public class MouseInput extends MouseAdapter{
 
     private Handler handler;
-    public double mouseX, mouseY;
+    private double tempTheta;
 
     public MouseInput(Handler handler) {
         this.handler = handler;
@@ -20,9 +20,8 @@ public class MouseInput extends MouseAdapter{
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
             if(temp.getId() == ID.Cannon){
-                int centerX = 20;
-                int centerY = 40;
-                //temp.setTheta(Math.atan2(centerY - e.getY(), centerX - e.getX()) - Math.PI / 2);
+                //rotate around center of cannon based on mouse location
+                temp.setVelTheta(Math.atan2((Game.HEIGHT - 55) - e.getY(), (Game.WIDTH/2) - e.getX()) - Math.PI/2);
             }
         }
     }
@@ -31,9 +30,12 @@ public class MouseInput extends MouseAdapter{
     public void mouseClicked(MouseEvent e) {
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
-            if(temp.getId() == ID.CannonBall){
-                temp.setVelX(5);
-                temp.setVelY(-5);
+            if(temp.getId() == ID.Cannon){
+                tempTheta = temp.getTheta();
+            }
+            if(temp.getId() == ID.CannonBall) {
+                temp.setVelY(7 * Math.cos(tempTheta)); // y-component = vel * cos(angle)
+                temp.setVelX(7 * Math.sin(tempTheta)); // x-component = vel * sin(angle)
             }
         }
     }

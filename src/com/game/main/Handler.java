@@ -40,37 +40,20 @@ public class Handler {
     }
 
     /**
-     * Add the cannon
+     * Add bubbles to the grid list, adds cannonball and cannon
      */
-    public void buildCannon(){
-        GameObject cannon = new Cannon(Game.WIDTH/2 - 20, Game.HEIGHT - 100, 0, ID.Cannon);
-        object.add(cannon);
-    }
-
-    /**
-     * Add the cannon ball
-     */
-    public void loadCannonBall(){
-        CannonBall cannonBall = new CannonBall(Game.WIDTH/2 - 13, Game.HEIGHT - 55,
-                diameter, ID.CannonBall, getRandomColor(), this);
-        object.add(cannonBall);
-    }
-
-    /**
-     * Add bubbles to the grid list
-     */
-    public void buildHexGrid(int numRows, int numCols, int numBubbleColors){
-        grid = new LinkedList<>();
+    public void buildBoard(int numRows, int numCols, int numBubbleColors){
+        //grid = new LinkedList<>();
         object = new LinkedList<>();
         this.numRows = numRows;
         this.numCols = numCols;
         this.numBubbleColors = numBubbleColors;
         this.diameter = Game.WIDTH/numCols;
-        int x, y = 2* diameter;
+        int x, y = 0;
         Boolean oddRow;
 
         for(int i = 0; i < numRows; i++){
-            row = new LinkedList<>();
+            //row = new LinkedList<>();
             if(i % 2 == 1){
                 x = diameter/2;
                 oddRow = true;
@@ -89,15 +72,100 @@ public class Handler {
                 rand = random(numBubbleColors);
 
                 Bubble bubble = new Bubble(x, y, diameter, ID.Bubble, getRandomColor());
-                row.add(bubble);
+                //row.add(bubble);
                 object.add(bubble);
 
                 x += diameter;
             }
-            grid.add(row);
+            //grid.add(row);
             y += diameter;
         }
 
+        buildCannon();
+        loadCannonBall();
+    }
+
+    /**
+     * Add the cannon
+     */
+    public void buildCannon(){
+        GameObject cannon = new Cannon(Game.WIDTH/2, Game.HEIGHT - 55, 0, ID.Cannon);
+        object.add(cannon);
+    }
+
+    /**
+     * Add the cannon ball
+     */
+    public void loadCannonBall(){
+        CannonBall cannonBall = new CannonBall(Game.WIDTH/2 - diameter/2, Game.HEIGHT - 55,
+                diameter, ID.CannonBall, getRandomColor(), this);
+        object.add(cannonBall);
+    }
+
+    /**
+     * Creates a new bubble at a location specifed by the parameters
+     */
+    public void addBubble(){
+        generator = new Random();
+        rand = random(numBubbleColors);
+        GameObject bubble = CannonBall.hitBubble;
+        GameObject cannonBall = CannonBall.currentCannonBall;
+
+        if(cannonBall.getY() >= bubble.getY() + diameter/2 && cannonBall.getX() + diameter/2 <= bubble.getX()){
+            object.addLast(new Bubble(bubble.getX() - diameter/2, bubble.getY() + diameter,
+                    diameter, ID.Bubble, cannonBall.getColor()));
+            object.remove(cannonBall);
+            loadCannonBall();
+        }
+        else if(cannonBall.getY() >= bubble.getY() + diameter/2){
+            object.addLast(new Bubble(bubble.getX() - diameter/2, bubble.getY() + diameter,
+                    diameter, ID.Bubble, cannonBall.getColor()));
+            object.remove(cannonBall);
+            loadCannonBall();
+        }
+
+        /** check top
+        if(this.getY() >= bubble.getY() + diameter/2) {
+            //Bubble newBubble = new Bubble(bubble.getX() - diameter/2, bubble.getY() + diameter,
+            //diameter, ID.Bubble, this.getColor());
+            handler.addBubble(i, bubble.getX() - diameter/2, bubble.getY() + diameter);
+            handler.object.remove(this);
+        }
+        // check bottom
+        else if(this.getY() + diameter/2 <= bubble.getY()) {
+            handler.addBubble(i, bubble.getX() + diameter/2, bubble.getY() - diameter);
+            handler.object.remove(this);
+        }
+        // check left
+        else if(this.getX() + diameter/2 <= bubble.getX()) {
+            handler.addBubble(i, bubble.getX() - diameter, bubble.getY());
+            handler.object.remove(this);
+        }
+        // check right
+        else if(this.getX() >= bubble.getX() + diameter/2) {
+            handler.addBubble(i, bubble.getX() + diameter, bubble.getY());
+            handler.object.remove(this);
+        }
+        // check top left
+        else if(this.getY() >= bubble.getY() + diameter/2 && this.getX() + diameter/2 <= bubble.getX()) {
+            handler.addBubble(i, bubble.getX() - diameter/2, bubble.getY() + diameter);
+            handler.object.remove(this);
+        }
+        // check top right
+        else if(this.getY() >= bubble.getY() + diameter/2 && this.getX() >= bubble.getX() + diameter/2) {
+            handler.addBubble(i, bubble.getX() + diameter/2, bubble.getY() + diameter);
+            handler.object.remove(this);
+        }
+        // check bottom left
+        else if(this.getY() + diameter/2 <= bubble.getY() && this.getX() + diameter/2 <= bubble.getX()) {
+            handler.addBubble(i, bubble.getX() - diameter/2, bubble.getY() - diameter);
+            handler.object.remove(this);
+        }
+        // check bottom right
+        else if(this.getY() + diameter/2 <= bubble.getY() && this.getX() >= bubble.getX() + diameter/2) {
+            handler.addBubble(i, bubble.getX() + diameter/2, bubble.getY() - diameter);
+            handler.object.remove(this);
+        }*/
     }
 
     /**

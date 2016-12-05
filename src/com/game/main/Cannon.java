@@ -9,43 +9,43 @@ import java.awt.geom.AffineTransform;
  */
 public class Cannon extends GameObject {
 
-    private double theta;
-
     public Cannon(int x, int y, double theta, ID id) {
         super(x, y, id);
-        this.theta = theta;
+        super.theta = theta;
     }
 
     @Override
-    public void tick() {
-        theta += velTheta;
-        theta = Game.clamp(theta, -1.4, 1.4); // can't shoot bubble downward or completely horizontal!
-        //shoot from center of cannon depending on direction of cannon
-        if(theta > 0){
-            super.setTheta(theta - 0.15);
-        }else if(theta < 0){
-            super.setTheta(theta + 0.15);
-        }else{
-            super.setTheta(theta);
-        }
+    public void tick(){
+        theta = velTheta;
+        //theta = Game.clamp(theta, -1.4, 1.4); // can't shoot bubble downward or completely horizontal!
     }
 
     @Override
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         AffineTransform old = g2d.getTransform();
-        g2d.rotate(theta, x + 20, Game.HEIGHT - 48);
+        g2d.rotate(theta, Game.WIDTH/2, Game.HEIGHT - 55);
+
+        //draw guiding dashed line
         g2d.setColor(Color.black);
+        Stroke dashedLine = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
+                0, new float[]{9}, 0);
+        g2d.setStroke(dashedLine);
+        g2d.drawLine(Game.WIDTH/2, Game.HEIGHT - 55, Game.WIDTH/2, 0);
+
+        /**draw border
         g2d.fillOval(x - 15, y + 19, 72, 72);
         g2d.fillRect(x - 1, y - 1, 42, 82);
+
+        //fill
         g2d.setColor(Color.cyan);
         g2d.fillOval(x - 14, y + 20, 70, 70);
-        g2d.fillRect(x, y, 40, 80);
+        g2d.fillRect(x, y, 40, 80);*/
         g2d.setTransform(old);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 40, 80);
+        return new Rectangle(this.x, this.y, 40, 80);
     }
 }

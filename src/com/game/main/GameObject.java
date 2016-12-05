@@ -9,10 +9,11 @@ public abstract class GameObject {
 
     protected int x, y; // Coordinate of objects
     protected ID id; // id of object
-    protected int velX, velY; // x and y velocity of object
+    protected double velX, velY; // x and y velocity of object
     protected double velTheta; // angle velocity of cannon rotation
     protected double theta; // angle of rotation
     protected int diameter; // diameter of Bubble() and CannonBall()
+    protected Color color;
 
     public GameObject(int x, int y, ID id){
         this.x = x;
@@ -51,19 +52,19 @@ public abstract class GameObject {
         this.id = id;
     }
 
-    public int getVelX() {
+    public double getVelX() {
         return velX;
     }
 
-    public void setVelX(int velX) {
+    public void setVelX(double velX) {
         this.velX = velX;
     }
 
-    public int getVelY() {
+    public double getVelY() {
         return velY;
     }
 
-    public void setVelY(int velY) {
+    public void setVelY(double velY) {
         this.velY = velY;
     }
 
@@ -89,5 +90,13 @@ public abstract class GameObject {
 
     public void setDiameter(int diameter) {
         this.diameter = diameter;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
