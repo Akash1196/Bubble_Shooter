@@ -1,6 +1,7 @@
 package com.game.main;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Holds inheritable characteristics of all game objects i.e. bubbles, pointer, etc.
@@ -13,7 +14,8 @@ public abstract class GameObject {
     protected double velTheta; // angle velocity of cannon rotation
     protected double theta; // angle of rotation
     protected int diameter; // diameter of Bubble() and CannonBall()
-    protected Color color;
+    protected int cannonHeight, cannonWidth;
+    protected BufferedImage image; // type of orb
 
     public GameObject(int x, int y, ID id){
         this.x = x;
@@ -92,11 +94,27 @@ public abstract class GameObject {
         this.diameter = diameter;
     }
 
-    public Color getColor() {
-        return color;
+    public int getCannonHeight() {
+        return cannonHeight;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setCannonHeight(int cannonHeight) {
+        this.cannonHeight = cannonHeight;
+    }
+
+    public int getCannonWidth() {
+        return cannonWidth;
+    }
+
+    public void setCannonWidth(int cannonWidth) {
+        this.cannonWidth = cannonWidth;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 }

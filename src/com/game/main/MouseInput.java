@@ -2,6 +2,7 @@ package com.game.main;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Point;
 
 /**
  * Determines what to do when there is mouse input
@@ -9,7 +10,8 @@ import java.awt.event.MouseEvent;
 public class MouseInput extends MouseAdapter{
 
     private Handler handler;
-    private double tempTheta;
+    private int diameter;
+    private Point mousePoint;
 
     public MouseInput(Handler handler) {
         this.handler = handler;
@@ -17,11 +19,20 @@ public class MouseInput extends MouseAdapter{
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        mousePoint = e.getPoint();
+        double rotation;
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
-            if(temp.getId() == ID.Cannon){
+            if(temp.getId() == ID.OrbBullet){
+                diameter = temp.getDiameter();
+            }
+            if(temp.getId() == ID.BioCannon){
+                int deltaX = mousePoint.x - Game.WIDTH/2;
+                int deltaY = mousePoint.y - (Game.HEIGHT - diameter/2);
+                rotation = Math.atan2(deltaX, deltaY);
+                rotation = -Math.toDegrees(rotation) + 180;
                 //rotate around center of cannon based on mouse location
-                temp.setVelTheta(Math.atan2((Game.HEIGHT - 55) - e.getY(), (Game.WIDTH/2) - e.getX()) - Math.PI/2);
+                temp.setVelTheta(Math.toRadians(rotation));
             }
         }
     }
@@ -30,12 +41,18 @@ public class MouseInput extends MouseAdapter{
     public void mouseClicked(MouseEvent e) {
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
-            if(temp.getId() == ID.Cannon){
-                tempTheta = temp.getTheta();
-            }
-            if(temp.getId() == ID.CannonBall) {
-                temp.setVelY(7 * Math.cos(tempTheta)); // y-component = vel * cos(angle)
-                temp.setVelX(7 * Math.sin(tempTheta)); // x-component = vel * sin(angle)
+            if(temp.getId() == ID.OrbBullet) {
+                int speed = 7;
+                float dirX = e.getPoint().x - Game.WIDTH/2 + 11;
+                float dirY = e.getPoint().y - (Game.HEIGHT - diameter/2);
+                // normalize direction vector
+                double dirLength = Math.sqrt(dirX*dirX + dirY*dirY);
+                dirX /= dirLength;
+                dirY /= dirLength;
+
+                // now updated component velocities
+                temp.setVelX(speed * dirX);
+                temp.setVelY(speed * dirY);
             }
         }
     }
