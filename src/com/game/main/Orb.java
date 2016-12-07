@@ -7,9 +7,9 @@ public class Orb extends GameObject{
 
     private BufferedImage orb;
 
-    private int diameter;
+    private double diameter;
 
-    public Orb(int x, int y, int diameter, BufferedImage orb, ID id) {
+    public Orb(double x, double y, double diameter, BufferedImage orb, ID id) {
         super(x, y, id);
         super.image = orb;
         this.diameter = diameter;
@@ -23,11 +23,11 @@ public class Orb extends GameObject{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(orb, x, y, this.diameter, this.diameter, null);
+        g.drawImage(orb, (int)x, (int)y, (int)this.diameter, (int)this.diameter, null);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(this.x, this.y, diameter, diameter);
+        return new Rectangle((int)this.x, (int)this.y, (int)this.diameter, (int)this.diameter);
     }
 }

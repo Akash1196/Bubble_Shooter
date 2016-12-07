@@ -7,14 +7,15 @@ public class OrbBullet extends GameObject{
 
     private BufferedImage orbBullet;
 
-    private int diameter;
+    private double diameter;
 
     private Handler handler;
 
-    public static int hitX, hitY, hitR, hitC, currentX, currentY; // the coordinates in pixels and row and col
+    public static double hitX, hitY, hitR, hitC, currentX, currentY; // the coordinates in pixels and row and col
     public static BufferedImage hitImage, currentImage;
+    public static GameObject hitOrb, currentOrbBullet;
 
-    public OrbBullet(int x, int y, int diameter, BufferedImage orbBullet, ID id, Handler handler) {
+    public OrbBullet(double x, double y, double diameter, BufferedImage orbBullet, ID id, Handler handler) {
         super(x, y, id);
         super.image = orbBullet;
         this.diameter = diameter;
@@ -35,37 +36,42 @@ public class OrbBullet extends GameObject{
         }
 
         if(collision()){
-            handler.update();
+            handler.processCollision();
         }
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(orbBullet, x, y,
-                this.diameter, this.diameter, null);
+        g.drawImage(orbBullet, (int)x, (int)y, (int)this.diameter, (int)this.diameter, null);
     }
 
     private Boolean collision(){
-        for(int i = 0; i < handler.object.size(); i++){
-            GameObject temp = handler.object.get(i);
-            // collision detection
-            if(temp.getId() == ID.Orb) {
-                if (this.getBounds().intersects(temp.getBounds())) {
-                    this.hitX = temp.getX();
-                    this.hitY = temp.getY();
-                    this.hitR = handler.getR(hitY);
-                    this.hitC = handler.getC(hitX, hitY);
+        for(int i = 0; i < handler.grid.size(); i++){
+            for(int j = 0; j < handler.row.size(); j++) {
+                Orb temp = handler.grid.get(i).get(j);
+                // don't check for collisions with the "empty" place holder
+                if(temp.getImage() != Assets.empty) {
+                    // collision detection and information retrieval
+                    if (getBounds().intersects(temp.getBounds())) {
+                        this.hitX = temp.getX();
+                        this.hitY = temp.getY();
+                        this.hitR = handler.getR(hitY);
+                        this.hitC = handler.getC(hitX);
 
-                    this.currentX = this.getX();
-                    this.currentY = this.getY();
+                        this.currentX = this.getX();
+                        this.currentY = this.getY();
 
-                    this.currentImage = this.getImage();
-                    this.hitImage = temp.getImage();
+                        this.currentImage = this.getImage();
+                        this.hitImage = temp.getImage();
 
-                    handler.object.remove(this);
-                    handler.loadOrbBullet();
+                        this.currentOrbBullet = this;
+                        this.hitOrb = temp;
 
-                    return true;
+                        handler.object.remove(this);
+                        handler.loadOrbBullet();
+
+                        return true;
+                    }
                 }
             }
         }
@@ -75,6 +81,6 @@ public class OrbBullet extends GameObject{
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(this.x, this.y, diameter, diameter);
+        return new Rectangle((int)this.x, (int)this.y, (int)this.diameter, (int)this.diameter);
     }
 }

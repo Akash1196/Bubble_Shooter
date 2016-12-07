@@ -8,16 +8,16 @@ import java.awt.image.BufferedImage;
  */
 public abstract class GameObject {
 
-    protected int x, y; // Coordinate of objects
+    protected double x, y; // Coordinate of objects
     protected ID id; // id of object
     protected double velX, velY; // x and y velocity of object
     protected double velTheta; // angle velocity of cannon rotation
     protected double theta; // angle of rotation
-    protected int diameter; // diameter of Bubble() and CannonBall()
+    protected double diameter; // diameter of Bubble() and CannonBall()
     protected int cannonHeight, cannonWidth;
     protected BufferedImage image; // type of orb
 
-    public GameObject(int x, int y, ID id){
+    public GameObject(double x, double y, ID id){
         this.x = x;
         this.y = y;
         this.id = id;
@@ -30,19 +30,19 @@ public abstract class GameObject {
     /**
      * Setters and Getters
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -86,11 +86,11 @@ public abstract class GameObject {
         this.theta = theta;
     }
 
-    public int getDiameter() {
+    public double getDiameter() {
         return diameter;
     }
 
-    public void setDiameter(int diameter) {
+    public void setDiameter(double diameter) {
         this.diameter = diameter;
     }
 

@@ -9,7 +9,7 @@ public class BioCannon extends GameObject{
     private BufferedImage bioCannon;
     public static int height, width;
 
-    public BioCannon(int x, int y, BufferedImage bioCannon, double theta, ID id) {
+    public BioCannon(double x, double y, BufferedImage bioCannon, double theta, ID id) {
         super(x, y, id);
         this.bioCannon = bioCannon;
         this.height = bioCannon.getHeight();
@@ -36,11 +36,12 @@ public class BioCannon extends GameObject{
         Stroke dashedLine = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
                 0, new float[]{9}, 0);
         g2d.setStroke(dashedLine);
-        g2d.drawLine(Game.WIDTH/2 - diameter/2, Game.HEIGHT - diameter/2,
-                Game.WIDTH/2, Game.HEIGHT/2 + 50);
+        g2d.drawLine((int)(Game.WIDTH/2 - diameter/2), (int)(Game.HEIGHT - diameter/2),
+                (int)Game.WIDTH/2, (int)Game.HEIGHT/2 + 50);
 
         // draw cannon
-        g2d.drawImage(bioCannon, (x - bioCannon.getWidth()/2) + 11, y - bioCannon.getHeight(), null);
+        g2d.drawImage(bioCannon, (int)(x - bioCannon.getWidth()/2) + 11,
+                (int)y - bioCannon.getHeight(), null);
 
         g2d.setTransform(old);
     }

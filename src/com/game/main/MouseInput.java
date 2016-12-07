@@ -10,7 +10,7 @@ import java.awt.Point;
 public class MouseInput extends MouseAdapter{
 
     private Handler handler;
-    private int diameter;
+    private double diameter;
     private Point mousePoint;
 
     public MouseInput(Handler handler) {
@@ -27,8 +27,8 @@ public class MouseInput extends MouseAdapter{
                 diameter = temp.getDiameter();
             }
             if(temp.getId() == ID.BioCannon){
-                int deltaX = mousePoint.x - Game.WIDTH/2;
-                int deltaY = mousePoint.y - (Game.HEIGHT - diameter/2);
+                double deltaX = mousePoint.x - Game.WIDTH/2;
+                double deltaY = mousePoint.y - (Game.HEIGHT - diameter/2);
                 rotation = Math.atan2(deltaX, deltaY);
                 rotation = -Math.toDegrees(rotation) + 180;
                 //rotate around center of cannon based on mouse location
@@ -43,8 +43,8 @@ public class MouseInput extends MouseAdapter{
             GameObject temp = handler.object.get(i);
             if(temp.getId() == ID.OrbBullet) {
                 int speed = 7;
-                float dirX = e.getPoint().x - Game.WIDTH/2 + 11;
-                float dirY = e.getPoint().y - (Game.HEIGHT - diameter/2);
+                double dirX = e.getPoint().x - Game.WIDTH/2;
+                double dirY = e.getPoint().y - (Game.HEIGHT - diameter/2);
                 // normalize direction vector
                 double dirLength = Math.sqrt(dirX*dirX + dirY*dirY);
                 dirX /= dirLength;

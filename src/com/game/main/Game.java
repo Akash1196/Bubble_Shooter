@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable{
 
-    public static final int WIDTH = 500, HEIGHT = 700;
+    public static final double WIDTH = 500, HEIGHT = 700;
 
     private Thread thread;
     private boolean running = false;
@@ -31,10 +31,6 @@ public class Game extends Canvas implements Runnable{
         this.height = height;
 
         handler = new Handler(8, 16, 3);
-        handler.initializeGraphics();
-
-        //this.addMouseListener(new MouseInput(handler));
-        //this.addMouseMotionListener(new MouseInput(handler));
     }
 
     private void init(){
@@ -119,10 +115,10 @@ public class Game extends Canvas implements Runnable{
 
         g = bs.getDrawGraphics();
         // clear screen
-        g.clearRect(0, 0, WIDTH, HEIGHT);
+        g.clearRect(0, 0, (int)WIDTH, (int)HEIGHT);
         // start drawing
         g.setColor(Color.black);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
 
         handler.render(g);
         //g.drawImage(testImage, 0, 0, null);
