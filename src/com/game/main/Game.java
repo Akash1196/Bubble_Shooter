@@ -28,7 +28,7 @@ public class Game extends Canvas implements Runnable{
         this.width = width;
         this.height = height;
 
-        handler = new Handler(8, 16, 3);
+        handler = new Handler(8, 16, 5);
     }
 
     private void init(){
@@ -114,7 +114,7 @@ public class Game extends Canvas implements Runnable{
         g = bs.getDrawGraphics();
 
         // start drawing
-        g.drawImage(Assets.background, 0, 0, null);
+        g.drawImage(Assets.background, 0, 0, 500, 700, null);
 
         handler.render(g);
         //g.drawImage(testImage, 0, 0, null);

@@ -42,7 +42,7 @@ public class MouseInput extends MouseAdapter{
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
             if(temp.getId() == ID.OrbBullet) {
-                int speed = 7;
+                int speed = 10;
                 double dirX = e.getPoint().x - Game.WIDTH/2;
                 double dirY = e.getPoint().y - (Game.HEIGHT - diameter/2);
                 // normalize direction vector

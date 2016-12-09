@@ -73,7 +73,7 @@ public class Handler {
     public void buildHexGrid(){
         grid = new ArrayList<>();
         object = new LinkedList<>();
-        this.diameter = (Game.WIDTH - 10)/numCols;
+        this.diameter = (Game.WIDTH - 14)/numCols;
 
         for(int i = 0; i < numRows; i++){
             row = new ArrayList<>();
