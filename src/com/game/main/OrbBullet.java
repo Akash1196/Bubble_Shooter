@@ -53,19 +53,19 @@ public class OrbBullet extends GameObject{
                 if(temp.getImage() != Assets.empty) {
                     // collision detection and information retrieval
                     if (getBounds().intersects(temp.getBounds())) {
-                        this.hitX = temp.getX();
-                        this.hitY = temp.getY();
-                        this.hitR = handler.getR(hitY);
-                        this.hitC = handler.getC(hitX);
+                        hitX = temp.getX();
+                        hitY = temp.getY();
+                        hitR = handler.getR(hitY);
+                        hitC = handler.getC(hitX);
 
-                        this.currentX = this.getX();
-                        this.currentY = this.getY();
+                        currentX = this.getX();
+                        currentY = this.getY();
 
-                        this.currentImage = this.getImage();
-                        this.hitImage = temp.getImage();
+                        currentImage = this.getImage();
+                        hitImage = temp.getImage();
 
-                        this.currentOrbBullet = this;
-                        this.hitOrb = temp;
+                        currentOrbBullet = this;
+                        hitOrb = temp;
 
                         handler.object.remove(this);
                         handler.loadOrbBullet();

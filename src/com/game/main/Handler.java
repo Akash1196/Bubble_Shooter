@@ -13,18 +13,18 @@ import java.util.List;
  */
 public class Handler {
 
-    public List<List<Orb>> grid; // List containing rows of bubbles
-    public List<Orb> row; // List containing bubbles
-    private List<Integer> x;
-    private List<Integer> y;
-    public LinkedList<GameObject> object; // List containing any and all objects that need to be rendered
+    List<List<Orb>> grid; // list containing rows of bubbles
+    List<Orb> row; // List containing bubbles
+    LinkedList<GameObject> object; // List containing any and all objects that need to be rendered
+    private List<Integer> x; // x coordinate of matching bubbles
+    private List<Integer> y; // y coordinate of matching bubbles
     private Boolean[][] markVisited;
-    private Random generator; // Random number generator variable
+    private Boolean[][] markConnectedToTop;
+    private Random generator; // random number generator variable
     private int matchingClusterCount;
     private int floatingClusterCount;
-    private int rand; // Number that holds random number attained from generator
-    private int numRows; // Number of rows of bubbles
-    private int numCols; // Number of columns of bubbles
+    private int numRows; // number of rows of bubbles
+    private int numCols; // number of columns of bubbles
     private int numBubbleTypes; // Number of different colors of bubbles
     private double diameter; // diameter of bubble object
 
@@ -66,6 +66,10 @@ public class Handler {
         }
     }
 
+    /**
+     * Initial GUI components
+     */
+
     public void buildHexGrid(){
         grid = new ArrayList<>();
         object = new LinkedList<>();
@@ -80,8 +84,6 @@ public class Handler {
             }
             grid.add(row);
         }
-
-        updateGridGUI();
     }
 
     public void buildBioCannon(){
@@ -108,14 +110,14 @@ public class Handler {
         y = new ArrayList<>();
         matchingClusterCount = 0;
 
-        // add bottom
+        // add bottom left
         if(OrbBullet.currentY <= (OrbBullet.hitY + diameter)
                 && OrbBullet.currentY >= (OrbBullet.hitY + diameter/2)){
             newOrb = new Orb(OrbBullet.hitX - diameter/2, OrbBullet.hitY + diameter,
                     diameter, OrbBullet.currentImage, ID.Orb);
             r = getR(OrbBullet.hitY + diameter);
-            c = getC(OrbBullet.hitX - diameter/2);
-        } // add top
+            c = getC(OrbBullet.hitX - diameter / 2);
+        }// add top right
         else if((OrbBullet.currentY + diameter) >= (OrbBullet.hitY)
                 && (OrbBullet.currentY + diameter) <= (OrbBullet.hitY + diameter/2)){
             newOrb = new Orb(OrbBullet.hitX + diameter/2, OrbBullet.hitY - diameter,
@@ -138,7 +140,7 @@ public class Handler {
             c = getC(OrbBullet.hitX + diameter);
         } // else statement shouldn't be reached
         else{
-            newOrb = new Orb(OrbBullet.hitX + diameter, OrbBullet.hitY,
+            newOrb = new Orb(Game.WIDTH/2, Game.HEIGHT/2,
                     diameter, Assets.empty, ID.Orb);
         }
 
@@ -152,21 +154,34 @@ public class Handler {
                 grid.get(r).add(k, new Orb(getX(r, k), getY(r), diameter, Assets.empty, ID.Orb));
             }
         }
-        grid.get(r).set(c, newOrb);
+
+        if(c < 0){
+            c++;
+            grid.get(r).set(c, newOrb);
+        }
+        else if(c > numCols - 1){
+            c--;
+            grid.get(r).set(c, newOrb);
+        }
+        else {
+            grid.get(r).set(c, newOrb);
+        }
 
         resetVisitedToFalse();
+        resetConnectedToTopToFalse();
         findCluster(r, c, true);
         removeMatchingCluster();
-        //findAndRemoveFloatingCluster();
-        updateGridGUI();
-        System.out.print("\n\nx: " + x + "\ny: " + y + "\nmatchingClusterCount: " + matchingClusterCount +
-                                "\nfloatingClusterCount: " + floatingClusterCount);
+        removeFloatingCluster();
     }
+
+    /**
+     * Cluster analysis methods
+     */
 
     public void findCluster(int r, int c, Boolean matchType){
         // check left
         if(c - 1 >= 0) {
-            if (grid.get(r).get(c - 1) != null && !markVisited[r][c - 1]) { // test if target cell is not visited
+            if (!markVisited[r][c - 1]) { // test if target cell is not visited
                 markVisited[r][c - 1] = true; // mark the current node as visited
                 if(matchType){
                     if (grid.get(r).get(c - 1).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -179,8 +194,7 @@ public class Handler {
                 else {
                     if (!grid.get(r).get(c - 1).getImage().equals(Assets.empty)
                             && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                        x.add(r);
-                        y.add(c - 1);
+                        markConnectedToTop[r][c - 1] = true;
                         findCluster(r, c - 1, false);
                     }
                 }
@@ -188,7 +202,7 @@ public class Handler {
         }
         // check right
         if(c + 1 < numCols) {
-            if (grid.get(r).get(c + 1) != null && !markVisited[r][c + 1]) { // test if target cell is not visited
+            if (!markVisited[r][c + 1]) { // test if target cell is not visited
                 markVisited[r][c + 1] = true; // mark the current node as visited
                 if(matchType){
                     if (grid.get(r).get(c + 1).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -201,8 +215,7 @@ public class Handler {
                 else {
                     if (!grid.get(r).get(c + 1).getImage().equals(Assets.empty)
                             && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                        x.add(r);
-                        y.add(c + 1);
+                        markConnectedToTop[r][c + 1] = true;
                         findCluster(r, c + 1, false);
                     }
                 }
@@ -218,14 +231,13 @@ public class Handler {
                             && grid.get(r - 1).get(c + 1).getImage().equals(Assets.empty)
                             && grid.get(r).get(c - 1).getImage().equals(Assets.empty)
                             && grid.get(r).get(c + 1).getImage().equals(Assets.empty)) {
-                        x.add(r);
-                        y.add(c);
+                        markConnectedToTop[r][c] = true;
                     }
                 }
             }
             // check top left
             if(r - 1 >= 0) {
-                if (grid.get(r - 1).get(c) != null && !markVisited[r - 1][c]) { // test if target cell is not visited
+                if (!markVisited[r - 1][c]) { // test if target cell is not visited
                     markVisited[r - 1][c] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r - 1).get(c).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -238,8 +250,7 @@ public class Handler {
                     else {
                         if (!grid.get(r - 1).get(c).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r - 1);
-                            y.add(c);
+                            markConnectedToTop[r - 1][c] = true;
                             findCluster(r - 1, c, false);
                         }
                     }
@@ -247,7 +258,7 @@ public class Handler {
             }
             // check top right
             if(r - 1 >= 0 && c + 1 < numCols) {
-                if (grid.get(r - 1).get(c + 1) != null && !markVisited[r - 1][c + 1]) { // test if target cell is not visited
+                if (!markVisited[r - 1][c + 1]) { // test if target cell is not visited
                     markVisited[r - 1][c + 1] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r - 1).get(c + 1).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -260,8 +271,7 @@ public class Handler {
                     else {
                         if (!grid.get(r - 1).get(c + 1).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r - 1);
-                            y.add(c + 1);
+                            markConnectedToTop[r - 1][c + 1] = true;
                             findCluster(r - 1, c + 1, false);
                         }
                     }
@@ -269,7 +279,7 @@ public class Handler {
             }
             // check bottom left
             if(r + 1 < numRows) {
-                if (grid.get(r + 1).get(c) != null && !markVisited[r + 1][c]) { // test if target cell is not visited
+                if (!markVisited[r + 1][c]) { // test if target cell is not visited
                     markVisited[r + 1][c] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r + 1).get(c).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -282,8 +292,7 @@ public class Handler {
                     else {
                         if (!grid.get(r + 1).get(c).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r + 1);
-                            y.add(c);
+                            markConnectedToTop[r + 1][c] = true;
                             findCluster(r + 1, c, false);
                         }
                     }
@@ -291,7 +300,7 @@ public class Handler {
             }
             // check bottom right
             if(r + 1 < numRows && c + 1 < numCols) {
-                if (grid.get(r + 1).get(c + 1) != null && !markVisited[r + 1][c + 1]) { // test if target cell is not visited
+                if (!markVisited[r + 1][c + 1]) { // test if target cell is not visited
                     markVisited[r + 1][c + 1] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r + 1).get(c + 1).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -304,8 +313,7 @@ public class Handler {
                     else {
                         if (!grid.get(r + 1).get(c + 1).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r + 1);
-                            y.add(c + 1);
+                            markConnectedToTop[r + 1][c + 1] = true;
                             findCluster(r + 1, c + 1, false);
                         }
                     }
@@ -321,14 +329,13 @@ public class Handler {
                             && grid.get(r - 1).get(c).getImage().equals(Assets.empty)
                             && grid.get(r).get(c - 1).getImage().equals(Assets.empty)
                             && grid.get(r).get(c + 1).getImage().equals(Assets.empty)) {
-                        x.add(r);
-                        y.add(c);
+                        markConnectedToTop[r][c] = true;
                     }
                 }
             }
             // check top left
             if(r - 1 >= 0 && c - 1 >= 0) {
-                if (grid.get(r - 1).get(c - 1) != null && !markVisited[r - 1][c - 1]) { // test if target cell is not visited
+                if (!markVisited[r - 1][c - 1]) { // test if target cell is not visited
                     markVisited[r - 1][c - 1] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r - 1).get(c - 1).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -341,8 +348,7 @@ public class Handler {
                     else {
                         if (!grid.get(r - 1).get(c - 1).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r - 1);
-                            y.add(c - 1);
+                            markConnectedToTop[r - 1][c - 1] = true;
                             findCluster(r - 1, c - 1, false);
                         }
                     }
@@ -350,7 +356,7 @@ public class Handler {
             }
             // check top right
             if(r - 1 >= 0) {
-                if (grid.get(r - 1).get(c) != null && !markVisited[r - 1][c]) { // test if target cell is not visited
+                if (!markVisited[r - 1][c]) { // test if target cell is not visited
                     markVisited[r - 1][c] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r - 1).get(c).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -363,8 +369,7 @@ public class Handler {
                     else {
                         if (!grid.get(r - 1).get(c).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r - 1);
-                            y.add(c);
+                            markConnectedToTop[r - 1][c] = true;
                             findCluster(r - 1, c, false);
                         }
                     }
@@ -372,7 +377,7 @@ public class Handler {
             }
             // check bottom left
             if(r + 1 < numRows && c - 1 >= 0) {
-                if (grid.get(r + 1).get(c - 1) != null && !markVisited[r + 1][c - 1]) { // test if target cell is not visited
+                if (!markVisited[r + 1][c - 1]) { // test if target cell is not visited
                     markVisited[r + 1][c - 1] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r + 1).get(c - 1).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -385,8 +390,7 @@ public class Handler {
                     else {
                         if (!grid.get(r + 1).get(c - 1).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r + 1);
-                            y.add(c - 1);
+                            markConnectedToTop[r + 1][c - 1] = true;
                             findCluster(r + 1, c - 1, false);
                         }
                     }
@@ -394,7 +398,7 @@ public class Handler {
             }
             // check bottom right
             if(r + 1 < numRows) {
-                if (grid.get(r + 1).get(c) != null && !markVisited[r + 1][c]) { // test if target cell is not visited
+                if (!markVisited[r + 1][c]) { // test if target cell is not visited
                     markVisited[r + 1][c] = true; // mark the current node as visited
                     if(matchType){
                         if (grid.get(r + 1).get(c).getImage().equals(grid.get(r).get(c).getImage())) {
@@ -407,8 +411,7 @@ public class Handler {
                     else {
                         if (!grid.get(r + 1).get(c).getImage().equals(Assets.empty)
                                 && !grid.get(r).get(c).getImage().equals(Assets.empty)) {
-                            x.add(r + 1);
-                            y.add(c);
+                            markConnectedToTop[r + 1][c] = true;
                             findCluster(r + 1, c, false);
                         }
                     }
@@ -423,65 +426,33 @@ public class Handler {
                 grid.get(x.get(i)).set(y.get(i), new Orb(getX(x.get(i), y.get(i)), getY(x.get(i)),
                         diameter, Assets.empty, ID.Orb));
             }
-            removeEmptyRows();
         }
 
-        updateGridGUI();
+        resetVisitedToFalse();
     }
 
     public void removeFloatingCluster(){
-        Boolean floating = true;
+        for(int i = 0; i < numCols; i++) {
+            findCluster(0, i, false);
+        }
+        checkTop();
+    }
+
+    /**
+     * Helper methods
+     */
+
+    public void checkTop(){
         floatingClusterCount = 0;
 
-        for (int i = 0; i < x.size(); i++) {
-            if (x.get(i) == 0) {
-                floating = false;
-            }
-        }
-
-        if (floating) {
-            for (int j = 0; j < x.size(); j++) {
-                floatingClusterCount++;
-                grid.get(x.get(j)).set(y.get(j), new Orb(getX(x.get(j), y.get(j)), getY(x.get(j)),
-                        diameter, Assets.empty, ID.Orb));
-            }
-            removeEmptyRows();
-        }
-
-        updateGridGUI();
-    }
-
-    public void findAndRemoveFloatingCluster(){
-        int clusterCount = 0;
-
-        for(int i = 0; i < numCols; i++) {
-            findCluster(numRows - 1, i, false);
-            removeFloatingCluster();
-            clusterCount += floatingClusterCount;
-        }
-        for(int j = 0; j < numRows; j++) {
-            findCluster(j, 0, false);
-            removeFloatingCluster();
-            clusterCount += floatingClusterCount;
-        }
-
-        floatingClusterCount = clusterCount;
-    }
-
-    public void updateGridGUI(){
-        System.out.print("\n\n");
-        for(int i = 0; i < this.grid.size(); i++){
-            for(int j = 0; j < this.row.size(); j++){
-                // don't add the "empty" orb that serves as a place holder
-                if(grid.get(i).get(j).getImage() != Assets.empty) {
-                    //object.add(grid.get(i).get(j));
-                    System.out.print("(" + getR(grid.get(i).get(j).getY()) + ", "
-                    + getC(grid.get(i).get(j).getX()) + ") ");
-                }else {
-                    System.out.print("(EMPTY) ");
+        for(int i = 0; i < numRows; i ++){
+            for(int j = 0; j < numCols; j++){
+                if(markConnectedToTop[i][j] == false){
+                    floatingClusterCount++;
+                    grid.get(i).set(j, new Orb(getX(i, j), getY(i),
+                            diameter, Assets.empty, ID.Orb));
                 }
             }
-            System.out.print("\n");
         }
     }
 
@@ -491,7 +462,7 @@ public class Handler {
         for(int j = 0; j < numRows; j ++){
             count = 0;
             for(int k = 0; k < numCols; k++){
-                if(grid.get(j).get(k).getImage().equals(Assets.empty)){
+                if(grid.get(j).get(k).getImage().equals(Assets.empty) && j == numRows - 1){
                     count++;
                     if(count == numCols){
                         grid.remove(j);
@@ -513,28 +484,47 @@ public class Handler {
         }
     }
 
+    private void resetConnectedToTopToFalse(){
+        markConnectedToTop = new Boolean[numRows][numCols];
+
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                markConnectedToTop[i][j] = false;
+            }
+        }
+    }
+
+    /**
+     * Setters and getters
+     */
+
     private BufferedImage getRandomOrb(){
         generator = new Random();
-        rand = random(numBubbleTypes);
+        int rand = random(numBubbleTypes);
 
         if(rand == 0){
-            return Assets.airless;
+            return Assets.red;
         }
         else if(rand == 1){
-            return Assets.curses;
+            return Assets.pink;
         }
         else if(rand == 2){
-            return Assets.flame;
+            return Assets.purple;
         }
         else if(rand == 3){
-            return Assets.venom;
+            return Assets.blue;
         }
         else if(rand == 4){
-            return Assets.blood;
+            return Assets.orange;
         }
         else{
             return null;
         }
+    }
+
+    private int random(int i)
+    {
+        return generator.nextInt(i);
     }
 
     public double getX(int r, int c){
@@ -556,16 +546,4 @@ public class Handler {
     public int getR(double y){
         return (int)Math.floor(y/diameter);
     }
-
-    /**
-     * Get a random number from 0 to 5
-     */
-    private int random(int i)
-    {
-        return generator.nextInt(i);
-    }
-
-    /**
-     * Setters and getters
-     */
 }

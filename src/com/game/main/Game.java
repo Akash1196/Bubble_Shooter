@@ -20,8 +20,6 @@ public class Game extends Canvas implements Runnable{
     private String title;
     private int width, height;
 
-    private BufferedImage testImage;
-
     /**
      * Default constructor
      */
@@ -114,11 +112,9 @@ public class Game extends Canvas implements Runnable{
         }
 
         g = bs.getDrawGraphics();
-        // clear screen
-        g.clearRect(0, 0, (int)WIDTH, (int)HEIGHT);
+
         // start drawing
-        g.setColor(Color.black);
-        g.fillRect(0, 0, (int)WIDTH, (int)HEIGHT);
+        g.drawImage(Assets.background, 0, 0, null);
 
         handler.render(g);
         //g.drawImage(testImage, 0, 0, null);
@@ -126,17 +122,5 @@ public class Game extends Canvas implements Runnable{
         // end drawing
         bs.show();
         g.dispose(); // get rid of the copy
-    }
-
-    public static double clamp(double val, double min, double max) {
-        if(val >= max){
-            return val = max;
-        }
-        else if(val <= min){
-            return val = min;
-        }
-        else{
-            return val;
-        }
     }
 }
