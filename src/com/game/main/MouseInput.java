@@ -38,7 +38,7 @@ public class MouseInput extends MouseAdapter{
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         for(int i = 0; i < handler.object.size(); i++){
             GameObject temp = handler.object.get(i);
             if(temp.getId() == ID.OrbBullet) {

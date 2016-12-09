@@ -42,8 +42,7 @@ public class BioCannon extends GameObject{
         // draw cannon
         int width = bioCannon.getWidth()/2;
         int height = bioCannon.getHeight()/2;
-        g2d.drawImage(bioCannon, (int)(x - width/2),
-                (int)(y - height), width, height, null);
+        //g2d.drawImage(bioCannon, (int)(x - width/2), (int)(y - height), width, height, null);
 
         g2d.setTransform(old);
     }

@@ -9,7 +9,7 @@ public class Assets {
     public static BufferedImage spriteSheet;
 
     public static void init(){
-        bioCannon = ImageLoader.loadImage("cannon.png");
+        bioCannon = ImageLoader.loadImage("Biomech Dragon Cannon.png");
 
         background = ImageLoader.loadImage("bg.jpg");
 

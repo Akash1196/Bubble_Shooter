@@ -34,10 +34,6 @@ public class Handler {
         this.numBubbleTypes = numBubbleTypes;
 
         Assets.init();// load images in once and only once when game is initialized
-
-        buildHexGrid();
-        buildBioCannon();
-        loadOrbBullet();
     }
 
     public void tick(){

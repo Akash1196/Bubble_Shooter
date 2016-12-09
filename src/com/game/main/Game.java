@@ -12,13 +12,21 @@ public class Game extends Canvas implements Runnable{
     private boolean running = false;
 
     private Handler handler;
-    private Window window;
+    public Window window;
+    public Menu menu;
 
     private BufferStrategy bs;
     private Graphics g;
 
     private String title;
     private int width, height;
+
+    public enum STATE{
+        Menu,
+        Game
+    }
+
+    public STATE gameState = STATE.Menu;
 
     /**
      * Default constructor
@@ -29,12 +37,14 @@ public class Game extends Canvas implements Runnable{
         this.height = height;
 
         handler = new Handler(8, 16, 5);
+        menu = new Menu(this, handler);
+
+        window = new Window(title, width, height);
+
+        window.getCanvas().addMouseListener(menu);
     }
 
-    private void init(){
-        window = new Window(title, width, height);
-        window.getCanvas().addMouseListener(new MouseInput(handler));
-        window.getCanvas().addMouseMotionListener(new MouseInput(handler));
+    public void init(){
     }
 
     /**
@@ -98,7 +108,12 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
-        handler.tick();
+        if(gameState == STATE.Game) {
+            handler.tick();
+        }
+        else if(gameState == STATE.Menu){
+            menu.tick();
+        }
     }
 
     /**
@@ -116,8 +131,11 @@ public class Game extends Canvas implements Runnable{
         // start drawing
         g.drawImage(Assets.background, 0, 0, 500, 700, null);
 
-        handler.render(g);
-        //g.drawImage(testImage, 0, 0, null);
+        if(gameState == STATE.Game) {
+            handler.render(g);
+        }else if(gameState == STATE.Menu){
+            menu.render(g);
+        }
 
         // end drawing
         bs.show();
