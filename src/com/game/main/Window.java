@@ -7,6 +7,7 @@ public class Window extends JFrame {
 
     private JFrame frame;
     private Canvas canvas;
+    private Canvas canvas2;
 
     private String title;
     private int width, height;
@@ -38,9 +39,5 @@ public class Window extends JFrame {
 
     public Canvas getCanvas() {
         return canvas;
-    }
-
-    public JFrame getFrame() {
-        return frame;
     }
 }

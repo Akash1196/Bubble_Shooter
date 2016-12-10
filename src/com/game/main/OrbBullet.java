@@ -31,7 +31,11 @@ public class OrbBullet extends GameObject{
         if(x > Game.WIDTH - diameter || x < 0){
             velX *= -1;
         }
-        if(y > Game.HEIGHT - diameter || y < 0){
+        if(y > Game.HEIGHT){
+            handler.object.remove(this);
+            handler.loadOrbBullet();
+        }
+        if(y < 0){
             velY *= - 1;
         }
 

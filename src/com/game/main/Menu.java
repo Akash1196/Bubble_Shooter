@@ -14,7 +14,7 @@ public class Menu extends MouseAdapter{
         this.handler = handler;
     }
 
-    public void mousePressed(MouseEvent e){
+    public void mouseClicked(MouseEvent e){
         int mx = e.getX();
         int my = e.getY();
 
@@ -24,17 +24,10 @@ public class Menu extends MouseAdapter{
             handler.buildHexGrid();
             handler.buildBioCannon();
             handler.loadOrbBullet();
-        }
-    }
 
-    public void mouseReleased(MouseEvent e){
-        int mx = e.getX();
-        int my = e.getY();
-
-        if(mouseOver(mx, my, (int)Game.WIDTH/2 - 150, (int)Game.HEIGHT/2, 300, 80)){
-            game.window.getCanvas().addMouseListener(new MouseInput(handler));
-            game.window.getCanvas().addMouseMotionListener(new MouseInput(handler));
             game.window.getCanvas().removeMouseListener(game.menu);
+            game.window.getCanvas().addMouseListener(game.mouseInput);
+            game.window.getCanvas().addMouseMotionListener(game.mouseInput);
         }
     }
 
@@ -57,24 +50,24 @@ public class Menu extends MouseAdapter{
     }
 
     public void render(Graphics g){
-        Font fnt = new Font("arial", 1, 100);
-        Font fnt1 = new Font("arial", 1, 50);
+        Font fnt = new Font("Arial", 1, 100);
+        Font fnt1 = new Font("Arial", 1, 50);
 
         g.setFont(fnt);
         g.setColor(Color.black);
-        g.drawString("Menu", (int)Game.WIDTH/2 - 150, (int)Game.HEIGHT/3);
+        g.drawString("Menu", (int)Game.WIDTH/2 - 130, (int)Game.HEIGHT/3);
 
         g.setFont(fnt1);
         g.setColor(Color.black);
-        g.drawString("Play", (int)Game.WIDTH/2 - 70, (int)Game.HEIGHT/2 + 55);
+        g.drawString("Play", (int)Game.WIDTH/2 - 60, (int)Game.HEIGHT/2 + 55);
 
         g.setFont(fnt1);
         g.setColor(Color.black);
-        g.drawString("Quit", (int)Game.WIDTH/2 - 70, (int)Game.HEIGHT/2 + 155);
+        g.drawString("Quit", (int)Game.WIDTH/2 - 60, (int)Game.HEIGHT/2 + 155);
 
         g.setFont(fnt1);
         g.setColor(Color.black);
-        g.drawString("Help", (int)Game.WIDTH/2 - 70, (int)Game.HEIGHT/2 + 255);
+        g.drawString("Help", (int)Game.WIDTH/2 - 60, (int)Game.HEIGHT/2 + 255);
 
         // buttons
         g.setColor(Color.black);

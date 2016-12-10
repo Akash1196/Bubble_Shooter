@@ -2,7 +2,6 @@ package com.game.main;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable{
 
@@ -11,9 +10,12 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean running = false;
 
-    private Handler handler;
+    public Handler handler;
+    public MouseInput mouseInput;
     public Window window;
     public Menu menu;
+    public GameOver gameover;
+    private HUD hud;
 
     private BufferStrategy bs;
     private Graphics g;
@@ -23,7 +25,8 @@ public class Game extends Canvas implements Runnable{
 
     public enum STATE{
         Menu,
-        Game
+        Game,
+        GameOver
     }
 
     public STATE gameState = STATE.Menu;
@@ -37,14 +40,16 @@ public class Game extends Canvas implements Runnable{
         this.height = height;
 
         handler = new Handler(8, 16, 5);
+        mouseInput = new MouseInput(handler);
+
         menu = new Menu(this, handler);
-
-        window = new Window(title, width, height);
-
-        window.getCanvas().addMouseListener(menu);
+        gameover = new GameOver(this, handler);
+        hud = new HUD();
     }
 
-    public void init(){
+    private void init(){
+        window = new Window(title, width, height);
+        window.getCanvas().addMouseListener(menu);
     }
 
     /**
@@ -108,11 +113,17 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
+        gameOver(); // changes state depending on if game is over or not
+
         if(gameState == STATE.Game) {
             handler.tick();
+            hud.tick();
         }
         else if(gameState == STATE.Menu){
             menu.tick();
+        }
+        else if(gameState == STATE.GameOver){
+            gameover.tick();
         }
     }
 
@@ -133,12 +144,35 @@ public class Game extends Canvas implements Runnable{
 
         if(gameState == STATE.Game) {
             handler.render(g);
+            hud.render(g);
         }else if(gameState == STATE.Menu){
             menu.render(g);
+        }
+        else if(gameState == STATE.GameOver){
+            gameover.render(g);
         }
 
         // end drawing
         bs.show();
         g.dispose(); // get rid of the copy
+    }
+
+    private void gameOver(){
+        if(gameState == STATE.Game) {
+            if (HUD.SCORE >= 10 || handler.belowWindow || handler.boardEmpty()) {
+                if(handler.belowWindow){
+                    gameover.win = false;
+                }
+                gameState = Game.STATE.GameOver;
+                handler.belowWindow = false;
+                HUD.SCORE = 0;
+                handler.numRows = 8;
+                handler.numCols = 16;
+
+                window.getCanvas().removeMouseListener(mouseInput);
+                window.getCanvas().removeMouseMotionListener(mouseInput);
+                window.getCanvas().addMouseListener(gameover);
+            }
+        }
     }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Bubble_Shooter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Bubble_Shooter_jar</output-path>
+    <root id="archive" name="Bubble_Shooter.jar">
+      <element id="module-output" name="Bubble_Shooter" />
+    </root>
+  </artifact>
+</component>

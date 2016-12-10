@@ -22,16 +22,20 @@ public class Handler {
     private Boolean[][] markConnectedToTop;
     private Random generator; // random number generator variable
     private int matchingClusterCount;
-    private int floatingClusterCount;
-    private int numRows; // number of rows of bubbles
-    private int numCols; // number of columns of bubbles
+    public int numRows; // number of rows of bubbles
+    public int numCols; // number of columns of bubbles
     private int numBubbleTypes; // Number of different colors of bubbles
     private double diameter; // diameter of bubble object
+    private int currentBulletRow;
+    private int getCurrentBulletCol;
+    public Boolean belowWindow = false;
 
     public Handler(int numRows, int numCols, int numBubbleTypes) {
         this.numRows = numRows;
         this.numCols = numCols;
         this.numBubbleTypes = numBubbleTypes;
+
+        HUD.SCORE = 0; // new handler means new score
 
         Assets.init();// load images in once and only once when game is initialized
     }
@@ -99,41 +103,58 @@ public class Handler {
      * then update is called in the tick() method of the OrbBullet class
      */
     public void processCollision(){
-        Orb newOrb; // added orb based on collision
-        int r = 0, c = 0; // row and column location of added orb
         // reset coordinate lists and count
         x = new ArrayList<>();
         y = new ArrayList<>();
         matchingClusterCount = 0;
 
+        addOrb();
+        if(!belowWindow) {
+            resetVisitedToFalse();
+            resetConnectedToTopToFalse();
+            findCluster(currentBulletRow, getCurrentBulletCol, true);
+            removeMatchingCluster();
+            removeFloatingCluster();
+        }
+    }
+
+    /**
+     * Determine where to add the ball and make necessary adjustments
+     */
+    private void addOrb(){
+        Orb newOrb; // added orb based on collision
+        int r = 0, c = 0; // row and column location of added orb
+
         // add bottom left
         if(OrbBullet.currentY <= (OrbBullet.hitY + diameter)
                 && OrbBullet.currentY >= (OrbBullet.hitY + diameter/2)){
-            newOrb = new Orb(OrbBullet.hitX - diameter/2, OrbBullet.hitY + diameter,
-                    diameter, OrbBullet.currentImage, ID.Orb);
-            r = getR(OrbBullet.hitY + diameter);
-            c = getC(OrbBullet.hitX - diameter / 2);
+            if(OrbBullet.currentOrbBullet.getVelX() >= 0) {
+                newOrb = new Orb(OrbBullet.hitX - diameter / 2, OrbBullet.hitY + diameter,
+                        diameter, OrbBullet.currentImage, ID.Orb);
+                r = getR(OrbBullet.hitY + diameter);
+                c = getC(OrbBullet.hitX - diameter / 2);
+            }
+            else{
+                newOrb = new Orb(OrbBullet.hitX + diameter / 2, OrbBullet.hitY + diameter,
+                        diameter, OrbBullet.currentImage, ID.Orb);
+                r = getR(OrbBullet.hitY + diameter);
+                c = getC(OrbBullet.hitX + diameter / 2);
+            }
         }// add top right
         else if((OrbBullet.currentY + diameter) >= (OrbBullet.hitY)
                 && (OrbBullet.currentY + diameter) <= (OrbBullet.hitY + diameter/2)){
-            newOrb = new Orb(OrbBullet.hitX + diameter/2, OrbBullet.hitY - diameter,
-                    diameter, OrbBullet.currentImage, ID.Orb);
-            r = getR(OrbBullet.hitY - diameter);
-            c = getC(OrbBullet.hitX + diameter/2);
-        } // add left
-        else if((OrbBullet.currentX + diameter) >= OrbBullet.hitX
-                && (OrbBullet.currentX + diameter) <= (OrbBullet.hitX + diameter/2)){
-            newOrb = new Orb(OrbBullet.hitX - diameter, OrbBullet.hitY,
-                    diameter, OrbBullet.currentImage, ID.Orb);
-            r = getR(OrbBullet.hitY);
-            c = getC(OrbBullet.hitX - diameter);
-        } // add right
-        else if(OrbBullet.currentX <= (OrbBullet.hitX + diameter)
-                && OrbBullet.currentX >= (OrbBullet.hitX + diameter/2)){
-            newOrb = new Orb(OrbBullet.hitX + diameter, OrbBullet.hitY,
-                    diameter, OrbBullet.currentImage, ID.Orb);
-            r = getR(OrbBullet.hitY);
-            c = getC(OrbBullet.hitX + diameter);
+            if(OrbBullet.currentOrbBullet.getVelX() < 0) {
+                newOrb = new Orb(OrbBullet.hitX + diameter / 2, OrbBullet.hitY - diameter,
+                        diameter, OrbBullet.currentImage, ID.Orb);
+                r = getR(OrbBullet.hitY - diameter);
+                c = getC(OrbBullet.hitX + diameter / 2);
+            }
+            else{
+                newOrb = new Orb(OrbBullet.hitX - diameter / 2, OrbBullet.hitY - diameter,
+                        diameter, OrbBullet.currentImage, ID.Orb);
+                r = getR(OrbBullet.hitY - diameter);
+                c = getC(OrbBullet.hitX - diameter / 2);
+            }
         } // else statement shouldn't be reached
         else{
             newOrb = new Orb(Game.WIDTH/2, Game.HEIGHT/2,
@@ -145,6 +166,12 @@ public class Handler {
             grid.add(new ArrayList<>());
         }
 
+        if(r + 1 == 21){
+            belowWindow = true;
+            numRows = 8;
+            numCols = 16;
+        }
+
         if(grid.get(r).isEmpty()) {
             for(int k = 0; k < numCols; k++){
                 grid.get(r).add(k, new Orb(getX(r, k), getY(r), diameter, Assets.empty, ID.Orb));
@@ -153,28 +180,38 @@ public class Handler {
 
         if(c < 0){
             c++;
-            grid.get(r).set(c, newOrb);
+            newOrb.setX(newOrb.getX() + diameter);
         }
-        else if(c > numCols - 1){
+        if(c > numCols - 1){
             c--;
-            grid.get(r).set(c, newOrb);
+            newOrb.setX(newOrb.getX() - diameter);
         }
-        else {
+
+        if(!grid.get(r).get(c).getImage().equals(Assets.empty)) {
+            c++;
+            if (!grid.get(r).get(c).getImage().equals(Assets.empty)) {
+                c -= 2;
+                newOrb.setX(newOrb.getX() - diameter);
+                grid.get(r).set(c, newOrb);
+            }
+            else {
+                newOrb.setX(newOrb.getX() + diameter);
+                grid.get(r).set(c, newOrb);
+            }
+        }
+        else{
             grid.get(r).set(c, newOrb);
         }
 
-        resetVisitedToFalse();
-        resetConnectedToTopToFalse();
-        findCluster(r, c, true);
-        removeMatchingCluster();
-        removeFloatingCluster();
+        this.currentBulletRow = r;
+        this.getCurrentBulletCol = c;
     }
 
     /**
      * Cluster analysis methods
      */
 
-    public void findCluster(int r, int c, Boolean matchType){
+    private void findCluster(int r, int c, Boolean matchType){
         // check left
         if(c - 1 >= 0) {
             if (!markVisited[r][c - 1]) { // test if target cell is not visited
@@ -416,18 +453,20 @@ public class Handler {
         }
     }
 
-    public void removeMatchingCluster(){
+    private void removeMatchingCluster(){
         if(matchingClusterCount >= 3) {
             for (int i = 0; i < x.size(); i++) {
                 grid.get(x.get(i)).set(y.get(i), new Orb(getX(x.get(i), y.get(i)), getY(x.get(i)),
                         diameter, Assets.empty, ID.Orb));
+
+                HUD.SCORE += 50; // 50 points for ever bubble in a matching cluster
             }
         }
 
         resetVisitedToFalse();
     }
 
-    public void removeFloatingCluster(){
+    private void removeFloatingCluster(){
         for(int i = 0; i < numCols; i++) {
             findCluster(0, i, false);
         }
@@ -438,36 +477,34 @@ public class Handler {
      * Helper methods
      */
 
-    public void checkTop(){
-        floatingClusterCount = 0;
-
+    private void checkTop(){
         for(int i = 0; i < numRows; i ++){
             for(int j = 0; j < numCols; j++){
-                if(markConnectedToTop[i][j] == false){
-                    floatingClusterCount++;
+                if(markConnectedToTop[i][j] == false && !grid.get(i).get(j).getImage().equals(Assets.empty)){
                     grid.get(i).set(j, new Orb(getX(i, j), getY(i),
                             diameter, Assets.empty, ID.Orb));
+
+                    HUD.SCORE += 100; // 100 points for every bubble in a floating cluster
                 }
             }
         }
     }
 
-    private void removeEmptyRows(){
-        int count;
-        // if a row is empty then remove it from the grid and update instance variable
-        for(int j = 0; j < numRows; j ++){
-            count = 0;
-            for(int k = 0; k < numCols; k++){
-                if(grid.get(j).get(k).getImage().equals(Assets.empty) && j == numRows - 1){
+    public Boolean boardEmpty(){
+        int count = 0;
+
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < row.size(); j++){
+                if(grid.get(i).get(j).getImage().equals(Assets.empty)){
                     count++;
-                    if(count == numCols){
-                        grid.remove(j);
-                        numRows--;
-                        break;
-                    }
+                }
+                if(count == (numRows * numCols)){
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     private void resetVisitedToFalse(){
@@ -541,5 +578,9 @@ public class Handler {
 
     public int getR(double y){
         return (int)Math.floor(y/diameter);
+    }
+
+    public int getNumRows() {
+        return numRows;
     }
 }
